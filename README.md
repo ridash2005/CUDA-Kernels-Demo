@@ -24,14 +24,21 @@ This repository contains a collection of CUDA programs demonstrating fundamental
 - Windows/WSL/Linux/Mac (see platform notes for specifics)
 - Git Bash/WSL recommended for Windows users
 
+### Cloning the Repository
+To start, clone the repository using this command:
+
+bash
+'git clone https://github.com/your-username/CUDA-Kernels-Demo.git
+cd CUDA-Kernels-Demo'
+
 ### Building a Subproject
 
 Navigate to any subproject, such as vector_ops, and follow the included README instructions:
 
-cd vector_ops
+'cd vector_ops
 make clean
 make
-./vector_ops_app
+./vector_ops_app'
 
 
 ---
@@ -65,13 +72,13 @@ make
 ### Usage
 
 1. **Set the CUDA architecture flag in the Makefile:**  
-NVCC_ARCH := -arch=sm_61
+'NVCC_ARCH := -arch=sm_61'
 Edit this to your GPU’s compute capability (see table).
 
 2. **Build and run:**
-make clean # cleans previous builds
+'make clean # cleans previous builds
 make # builds the application
-./vector_ops_app
+./vector_ops_app'
 
 
 ### Setting GPU Architecture
@@ -125,8 +132,7 @@ See [CUDA GPU list](https://developer.nvidia.com/cuda-gpus) for your model.
 
 ## License
 
-This repository is intended for educational and research use.  
-Feel free to use, extend, and cite—respecting original authorship and contributions.
+This project is licensed under the MIT License. See the LICENSE file for details.
 
 ---
 
