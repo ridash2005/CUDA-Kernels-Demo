@@ -141,7 +141,8 @@ Planned subprojects include:
 
 ## Contact
 
-For bug reports, support, or feedback, open issues or contact the maintainer directly.  
-Happy parallel programming and GPU acceleration!
+For questions or contributions, please open an issue or submit a pull request.
+gmail: rickaryadas@gmail.com
+
 
 
