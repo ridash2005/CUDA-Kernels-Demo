@@ -27,19 +27,8 @@ This repository contains a collection of CUDA programs demonstrating fundamental
 ### Cloning the Repository
 To start, clone the repository using this command:
 
-bash
-'git clone https://github.com/your-username/CUDA-Kernels-Demo.git
-cd CUDA-Kernels-Demo'
-
-### Building a Subproject
-
-Navigate to any subproject, such as vector_ops, and follow the included README instructions:
-
-'cd vector_ops
-make clean
-make
-./vector_ops_app'
-
+`git clone https://github.com/your-username/CUDA-Kernels-Demo.git`
+`cd CUDA-Kernels-Demo`
 
 ---
 
@@ -72,13 +61,13 @@ make
 ### Usage
 
 1. **Set the CUDA architecture flag in the Makefile:**  
-'NVCC_ARCH := -arch=sm_61'
+`NVCC_ARCH := -arch=sm_61`
 Edit this to your GPU’s compute capability (see table).
 
 2. **Build and run:**
-'make clean # cleans previous builds
-make # builds the application
-./vector_ops_app'
+`make clean` # cleans previous builds
+`make` # builds the application
+`./vector_ops_app`
 
 
 ### Setting GPU Architecture
@@ -103,13 +92,13 @@ See [CUDA GPU list](https://developer.nvidia.com/cuda-gpus) for your model.
 
 ### Troubleshooting
 
-| Problem                                    | Solution                                                        |
+| Problem                                     | Solution                                                         |
 |---------------------------------------------|------------------------------------------------------------------|
 | `DEFAULT_BLOCK_SIZE` undefined              | Ensure all source files include `vector_ops.h`                   |
 | Makefile `rm` not found on Windows          | Use Git Bash/WSL or switch to `del` command in Makefile          |
 | CUDA arch mismatch (`sm_xy`)                | Update Makefile flag for your GPU architecture                   |
 | Out of memory errors                        | Lower `N` or check available GPU memory with `nvidia-smi`        |
-| Kernel result mismatch                     | Confirm device-to-host memory copies and use proper verification |
+| Kernel result mismatch                      | Confirm device-to-host memory copies and use proper verification |
 | Include path/SDK errors in IDE              | Add CUDA/include and Windows Kits folder to IDE include paths    |
 | Slow verification for large `N`             | Reduce `N` or parallelize CPU code                               |
 
