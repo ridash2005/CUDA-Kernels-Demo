@@ -10,7 +10,10 @@ This repository contains a collection of CUDA programs demonstrating fundamental
   High-performance vector addition, subtraction, multiplication, and dot product using both CPU and GPU implementations, with dynamic kernel configuration and extensive validation.  
   *(See detailed section below for vector_ops subproject)*
 
-- *(Future subprojects: matrix_ops, reductions, convolution, etc.)*
+- **mat_mult/**  
+  CUDA implementations of matrix multiplication with both CPU reference and GPU accelerations, including naive and optimized tiled kernels.  
+  Demonstrates shared memory usage, kernel tiling, synchronization, and performance benchmarking with validation.  
+  *(See detailed section below for mat_mult subproject)*
 
 ---
 
@@ -113,7 +116,7 @@ Edit this to your GPU’s compute capability (see table).
 ## mat_mult Subproject
 
 ### Overview
-mat_mult/ contains CUDA implementations for matrix multiplication showcasing fundamental GPU computing techniques:
+`mat_mult/` contains CUDA implementations for matrix multiplication showcasing fundamental GPU computing techniques:
 
 - A **Naive kernel**, with one thread computing each output element.
 - An **Optimized tiled kernel** utilizing shared memory to reduce global memory latency for improved performance.
@@ -121,14 +124,14 @@ mat_mult/ contains CUDA implementations for matrix multiplication showcasing fun
 CPU reference implementation and GPU versions are included, illustrating correctness verification and performance benchmarking.
 
 ### Repository Structure
-mat_mult/
-├── include/
-│ └── mat_mult.h # Kernel declarations and host API
-├── src/
-│ ├── mat_mult.cu # CUDA kernels and launch wrappers
-│ └── main.cu # Host workflow: initialization, timing, validation
-├── Makefile # Build instructions for mat_mult
-└── README.md # Project documentation
+-mat_mult/
+-├── include/
+-│ └── mat_mult.h # Kernel declarations and host API
+-├── src/
+-│ ├── mat_mult.cu # CUDA kernels and launch wrappers
+-│ └── main.cu # Host workflow: initialization, timing, validation
+-├── Makefile # Build instructions for mat_mult
+-└── README.md # Project documentation
 
 
 ### Getting Started
