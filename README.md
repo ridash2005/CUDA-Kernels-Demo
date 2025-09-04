@@ -30,6 +30,13 @@ To start, clone the repository using this command:
 `git clone https://github.com/your-username/CUDA-Kernels-Demo.git`
 `cd CUDA-Kernels-Demo`
 
+### Setting GPU Architecture
+
+- Common architectures:  
+Pascal: `sm_61` | Volta: `sm_70` | Turing: `sm_75` | Ampere: `sm_80`  
+See [CUDA GPU list](https://developer.nvidia.com/cuda-gpus) for your model.
+- Adjust `NVCC_ARCH` in Makefile as needed.
+
 ---
 
 ## Platform Notes
@@ -69,14 +76,6 @@ Edit this to your GPU’s compute capability (see table).
 `make` # builds the application
 `./vector_ops_app`
 
-
-### Setting GPU Architecture
-
-- Common architectures:  
-Pascal: `sm_61` | Volta: `sm_70` | Turing: `sm_75` | Ampere: `sm_80`  
-See [CUDA GPU list](https://developer.nvidia.com/cuda-gpus) for your model.
-- Adjust `NVCC_ARCH` in Makefile as needed.
-
 ### Adjusting Vector Size N
 
 - Edit `#define N` in `main.cu` to control vector size.
@@ -111,6 +110,71 @@ See [CUDA GPU list](https://developer.nvidia.com/cuda-gpus) for your model.
 - Explore multi-GPU support for very large data sets.
 
 ---
+## mat_mult Subproject
+
+### Overview
+mat_mult/ contains CUDA implementations for matrix multiplication showcasing fundamental GPU computing techniques:
+
+- A **Naive kernel**, with one thread computing each output element.
+- An **Optimized tiled kernel** utilizing shared memory to reduce global memory latency for improved performance.
+
+CPU reference implementation and GPU versions are included, illustrating correctness verification and performance benchmarking.
+
+### Repository Structure
+mat_mult/
+├── include/
+│ └── mat_mult.h # Kernel declarations and host API
+├── src/
+│ ├── mat_mult.cu # CUDA kernels and launch wrappers
+│ └── main.cu # Host workflow: initialization, timing, validation
+├── Makefile # Build instructions for mat_mult
+└── README.md # Project documentation
+
+
+### Getting Started
+
+**Prerequisites**
+- NVIDIA CUDA Toolkit (12.6 or compatible)
+- CUDA-capable GPU (CC 6.0+ recommended)
+- Supported C++ compiler with nvcc (Windows/WSL/Linux/Mac)
+
+**Build and Run**
+1. Update the NVCC_ARCH flag in the Makefile to your GPU’s compute capability (e.g., -arch=sm_61).
+2. Build and execute:
+\`\`\`bash
+make clean
+make
+./mat_mult_app
+\`\`\`
+
+### Features
+
+- CPU and GPU matrix multiplication implementations for correctness and performance comparison.
+- Detailed timings using CPU clock and CUDA events.
+- Verification against CPU results with configurable precision tolerance.
+- Demonstrates key CUDA concepts: thread indexing, memory management, kernel launches, synchronization, and shared memory optimization.
+
+### Usage Tips
+
+- Adjust matrix size by editing N in main.cu as per GPU memory limits.
+- Modify tile/block size constants in mat_mult.cu to tune kernel efficiency.
+- Validate results on startup before benchmarking to confirm correctness.
+
+### Troubleshooting
+
+| Issue                       | Solution                                                  |
+|-----------------------------|-----------------------------------------------------------|
+| Out of GPU memory           | Reduce N or close other GPU applications                  |
+| Kernel launch failures      | Validate grid/block dimension calculations                |
+| Result mismatch             | Check host/device memory copies, verify kernel logic      |
+| Slow performance            | Experiment with tile size, verify correct synchronization |
+
+### Extending mat_mult
+
+- Support double precision (FP64) and batch matrix multiplication.
+- Integrate profiling tools (Nsight) to identify bottlenecks.
+- Apply stream and asynchronous copy optimizations.
+- Collaborate to add benchmarks for other matrix operations like transpose and inversion.
 
 ## Contributing
 
