@@ -124,14 +124,14 @@ Edit this to your GPU’s compute capability (see table).
 CPU reference implementation and GPU versions are included, illustrating correctness verification and performance benchmarking.
 
 ### Repository Structure
--mat_mult/
--├── include/
--│ └── mat_mult.h # Kernel declarations and host API
--├── src/
--│ ├── mat_mult.cu # CUDA kernels and launch wrappers
--│ └── main.cu # Host workflow: initialization, timing, validation
--├── Makefile # Build instructions for mat_mult
--└── README.md # Project documentation
+- mat_mult/
+- ├── include/
+- │ └── mat_mult.h # Kernel declarations and host API
+- ├── src/
+- │ ├── mat_mult.cu # CUDA kernels and launch wrappers
+- │ └── main.cu # Host workflow: initialization, timing, validation
+- ├── Makefile # Build instructions for mat_mult
+- └── README.md # Project documentation
 
 
 ### Getting Started
