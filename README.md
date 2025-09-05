@@ -70,13 +70,13 @@ Edit this to your GPU’s compute capability (see table).
 
 ### Folder Structure
 
-vector_ops/
-├── include/
-│   └── vector_ops.h          
-├── src/
-│   ├── vector_ops.cu          
-├── Makefile               
-└── README.md
+-vector_ops/
+- ├── include/
+- │   └── vector_ops.h          
+- ├── src/
+- │   ├── vector_ops.cu          
+- ├── Makefile               
+- └── README.md
 
 **Build and run:**
 `make clean` # cleans previous builds
@@ -116,9 +116,9 @@ vector_ops/
 - Profile GPU execution with Nvidia Nsight or Visual Profiler.
 - Explore multi-GPU support for very large data sets.
 
-# mv_ops Subproject - README
+## mv_ops Subproject - README
 
-# Overview
+### Overview
 
 The mv_ops subproject provides UTF-8 CUDA implementations of high-performance matrix-vector operations. It demonstrates GPU parallelization techniques applied to:
 
@@ -129,15 +129,15 @@ The mv_ops subproject provides UTF-8 CUDA implementations of high-performance ma
 
 
 
-# Folder Structure
+### Folder Structure
 
-mv_ops/
-├── include/
-│   └── mv_ops.h          
-├── src/
-│   ├── mv_ops.cu          
-├── Makefile               
-└── README.md    
+- mv_ops/
+- ├── include/
+- │   └── mv_ops.h          
+- ├── src/
+- │   ├── mv_ops.cu          
+- ├── Makefile               
+- └── README.md    
 
 **Build and run:**
 `make clean` # cleans previous builds
@@ -145,7 +145,7 @@ mv_ops/
 `./mv_app.exe`
 
 
-# User-Configurable Parameters
+### User-Configurable Parameters
 
 These parameters can be tuned directly in the source code (`src/mv_ops.cu` and `src/main.cu`) to adapt computation to various GPU architectures and application needs:
 
@@ -160,7 +160,7 @@ These parameters can be tuned directly in the source code (`src/mv_ops.cu` and `
 | CPU validation toggle  | Enable/disable CPU reference validation        | `src/main.cu`               | Enabled by default         |
 
 
-# Troubleshooting Guide
+### Troubleshooting Guide
 
 | Issue                         | Recommended Actions                                       |
 |------------------------------ |---------------------------------------------------------- |
@@ -171,7 +171,7 @@ These parameters can be tuned directly in the source code (`src/mv_ops.cu` and `
 | Slow kernels                  | Tune thread block sizes and memory access patterns        |
 
 
-# Extending mv_ops
+### Extending mv_ops
 
 - Support for double-precision (FP64) and mixed precision arithmetic
 - Batched matrix-vector/matrix operations for simultaneous multi-problem execution
