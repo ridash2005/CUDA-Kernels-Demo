@@ -10,9 +10,9 @@ This repository contains a collection of CUDA programs demonstrating fundamental
   High-performance vector addition, subtraction, multiplication, and dot product using both CPU and GPU implementations, with dynamic kernel configuration and extensive validation.  
   *(See detailed section below for vector_ops subproject)*
 
-- **mat_mult/**  
-  CUDA implementations of matrix multiplication with both CPU reference and GPU accelerations, including naive and optimized tiled kernels.  
-  Demonstrates shared memory usage, kernel tiling, synchronization, and performance benchmarking with validation.  
+- **mv_ops/**
+CUDA implementations of core matrix-vector operations with comprehensive CPU reference implementations and GPU accelerations.
+Includes dense, banded, symmetric, and triangular matrix-vector multiply kernels, along with rank-1 and rank-2 matrix update operations.
   *(See detailed section below for mat_mult subproject)*
 
 ---
@@ -40,6 +40,13 @@ Pascal: `sm_61` | Volta: `sm_70` | Turing: `sm_75` | Ampere: `sm_80`
 See [CUDA GPU list](https://developer.nvidia.com/cuda-gpus) for your model.
 - Adjust `NVCC_ARCH` in Makefile as needed.
 
+
+### Usage
+
+1. **Set the CUDA architecture flag in the Makefile:**  
+`NVCC_ARCH := -arch=sm_61`
+Edit this to your GPU’s compute capability (see table).
+
 ---
 
 ## Platform Notes
@@ -61,23 +68,20 @@ See [CUDA GPU list](https://developer.nvidia.com/cuda-gpus) for your model.
 - Verification of GPU results against CPU versions
 - Detailed timing for CPU and GPU performance benchmarking
 
-### Folder Content
+### Folder Structure
 
-- `include/vector_ops.h` — Function prototypes, macros, typedefs
-- `src/vector_ops.cu` — CUDA kernels and CPU implementations
-- `src/main.cu` — Driver code: setup, execution, timing, and validation
-- `Makefile` — Build instructions/configuration flags
+vector_ops/
+├── include/
+│   └── vector_ops.h          
+├── src/
+│   ├── vector_ops.cu          
+├── Makefile               
+└── README.md
 
-### Usage
-
-1. **Set the CUDA architecture flag in the Makefile:**  
-`NVCC_ARCH := -arch=sm_61`
-Edit this to your GPU’s compute capability (see table).
-
-2. **Build and run:**
+**Build and run:**
 `make clean` # cleans previous builds
 `make` # builds the application
-`./vector_ops_app`
+`./vector_ops_app.exe`
 
 ### Adjusting Vector Size N
 
@@ -112,72 +116,72 @@ Edit this to your GPU’s compute capability (see table).
 - Profile GPU execution with Nvidia Nsight or Visual Profiler.
 - Explore multi-GPU support for very large data sets.
 
+# mv_ops Subproject - README
+
+# Overview
+
+The mv_ops subproject provides UTF-8 CUDA implementations of high-performance matrix-vector operations. It demonstrates GPU parallelization techniques applied to:
+
+- Dense matrix-vector multiplication and specialized variants (banded, symmetric, triangular)
+- Rank-1 and rank-2 matrix updates
+- Comprehensive CPU reference implementations for correctness validation
+- High-resolution CPU and GPU timing for benchmarking
+
+
+
+# Folder Structure
+
+mv_ops/
+├── include/
+│   └── mv_ops.h          
+├── src/
+│   ├── mv_ops.cu          
+├── Makefile               
+└── README.md    
+
+**Build and run:**
+`make clean` # cleans previous builds
+`make` # builds the application
+`./mv_app.exe`
+
+
+# User-Configurable Parameters
+
+These parameters can be tuned directly in the source code (`src/mv_ops.cu` and `src/main.cu`) to adapt computation to various GPU architectures and application needs:
+
+| Parameter              | Description                                    | Approximate Location        | Default Value              |
+|------------------------|------------------------------------------------|----------------------------|-----------------------------|
+| `N`                    | Matrix/vector dimension (square matrices)      | `src/main.cu`               | 1024                       |
+| `bandwidth`            | Bandwidth parameter for banded matrix kernels  | `src/mv_ops.cu`             | 5                          |
+| `THREADS_PER_BLOCK_1D` | Threads per block in 1D kernels                | `src/mv_ops.cu`             | 256                        |
+| `THREADS_X_2D`         | Threads per block along X in 2D kernels        | `src/mv_ops.cu`             | 16                         |
+| `THREADS_Y_2D`         | Threads per block along Y in 2D kernels        | `src/mv_ops.cu`             | 16                         |
+| `VALIDATION_TOLERANCE` | Tolerance for floating-point result validation | `src/mv_ops.cu`             | 1e-3                       |
+| CPU validation toggle  | Enable/disable CPU reference validation        | `src/main.cu`               | Enabled by default         |
+
+
+# Troubleshooting Guide
+
+| Issue                         | Recommended Actions                                       |
+|------------------------------ |---------------------------------------------------------- |
+| Kernel launch failure         | Verify launch dimensions against matrix/vector sizes      |
+| Out of GPU memory             | Decrease matrix/vector size or release other allocations  |
+| Result validation mismatch    | Verify data transfers, kernel logic, and validation args  |
+| Unexpectedly long GPU time    | Ensure proper CUDA event synchronization and error checks |
+| Slow kernels                  | Tune thread block sizes and memory access patterns        |
+
+
+# Extending mv_ops
+
+- Support for double-precision (FP64) and mixed precision arithmetic
+- Batched matrix-vector/matrix operations for simultaneous multi-problem execution
+- Use of asynchronous CUDA streams and pinned host memory for overlapping compute and data transfers
+- Further kernel optimizations including warp shuffles and loop unrolling
+- Full GPU implementation of triangular solve (TRSM) and matrix inversion kernels
+- Profiling integration using Nsight Systems and Nsight Compute for bottleneck analysis
+
+
 ---
-## mat_mult Subproject
-
-### Overview
-`mat_mult/` contains CUDA implementations for matrix multiplication showcasing fundamental GPU computing techniques:
-
-- A **Naive kernel**, with one thread computing each output element.
-- An **Optimized tiled kernel** utilizing shared memory to reduce global memory latency for improved performance.
-
-CPU reference implementation and GPU versions are included, illustrating correctness verification and performance benchmarking.
-
-### Repository Structure
-- mat_mult/
-- ├── include/
-- │ └── mat_mult.h # Kernel declarations and host API
-- ├── src/
-- │ ├── mat_mult.cu # CUDA kernels and launch wrappers
-- │ └── main.cu # Host workflow: initialization, timing, validation
-- ├── Makefile # Build instructions for mat_mult
-- └── README.md # Project documentation
-
-
-### Getting Started
-
-**Prerequisites**
-- NVIDIA CUDA Toolkit (12.6 or compatible)
-- CUDA-capable GPU (CC 6.0+ recommended)
-- Supported C++ compiler with nvcc (Windows/WSL/Linux/Mac)
-
-**Build and Run**
-1. Update the NVCC_ARCH flag in the Makefile to your GPU’s compute capability (e.g., -arch=sm_61).
-2. Build and execute:
-\`\`\`bash
-make clean
-make
-./mat_mult_app
-\`\`\`
-
-### Features
-
-- CPU and GPU matrix multiplication implementations for correctness and performance comparison.
-- Detailed timings using CPU clock and CUDA events.
-- Verification against CPU results with configurable precision tolerance.
-- Demonstrates key CUDA concepts: thread indexing, memory management, kernel launches, synchronization, and shared memory optimization.
-
-### Usage Tips
-
-- Adjust matrix size by editing N in main.cu as per GPU memory limits.
-- Modify tile/block size constants in mat_mult.cu to tune kernel efficiency.
-- Validate results on startup before benchmarking to confirm correctness.
-
-### Troubleshooting
-
-| Issue                       | Solution                                                  |
-|-----------------------------|-----------------------------------------------------------|
-| Out of GPU memory           | Reduce N or close other GPU applications                  |
-| Kernel launch failures      | Validate grid/block dimension calculations                |
-| Result mismatch             | Check host/device memory copies, verify kernel logic      |
-| Slow performance            | Experiment with tile size, verify correct synchronization |
-
-### Extending mat_mult
-
-- Support double precision (FP64) and batch matrix multiplication.
-- Integrate profiling tools (Nsight) to identify bottlenecks.
-- Apply stream and asynchronous copy optimizations.
-- Collaborate to add benchmarks for other matrix operations like transpose and inversion.
 
 ## Contributing
 
