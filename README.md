@@ -116,7 +116,7 @@ Edit this to your GPU’s compute capability (see table).
 - Profile GPU execution with Nvidia Nsight or Visual Profiler.
 - Explore multi-GPU support for very large data sets.
 
-## mv_ops Subproject - README
+## mv_ops Subproject
 
 ### Overview
 
