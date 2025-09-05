@@ -5,8 +5,8 @@ NVCC_ARCH := -arch=sm_61
 INCLUDE_DIR := include
 SRC_DIR := src
 
-TARGET := mat_mult_app
-SRC_FILES := $(SRC_DIR)/mat_mult.cu $(SRC_DIR)/main.cu
+TARGET := mv_app
+SRC_FILES := $(SRC_DIR)/mv_ops.cu $(SRC_DIR)/main.cu
 
 all: $(TARGET)
 
