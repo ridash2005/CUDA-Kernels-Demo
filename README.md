@@ -14,7 +14,12 @@ This repository contains a collection of CUDA programs demonstrating fundamental
 CUDA implementations of core matrix-vector operations with comprehensive CPU reference implementations and GPU accelerations.
 Includes dense, banded, symmetric, and triangular matrix-vector multiply kernels, along with rank-1 and rank-2 matrix update operations.
   *(See detailed section below for mat_mult subproject)*
-
+  
+- **fft/**  
+  Demonstrates GPU-accelerated Fast Fourier Transform implementations with two CUDA kernels:  
+  - Radix-2 FFT (classic Cooley-Tukey)  
+  - Stockham FFT (ping-pong buffer approach)  
+  Includes CPU DFT reference and RMS error validation.
 ---
 
 ## Getting Started
@@ -180,6 +185,60 @@ These parameters can be tuned directly in the source code (`src/mv_ops.cu` and `
 - Full GPU implementation of triangular solve (TRSM) and matrix inversion kernels
 - Profiling integration using Nsight Systems and Nsight Compute for bottleneck analysis
 
+## fft Subproject
+### Overview
+`fft/` demonstrates GPU-accelerated Fast Fourier Transform implementations including:
+- Radix-2 FFT (in-place Cooley-Tukey algorithm with bit-reversal reordering)
+- Stockham FFT (ping-pong buffer approach for improved memory access patterns)
+- CPU DFT reference implementation for validation
+- RMS error calculation comparing GPU FFT results against CPU DFT
+
+### Folder Structure
+- fft/
+- ├── include/
+- │   ├── fft_radix2.h
+- │   └── fft_stockham.h
+- ├── src/
+- │   ├── fft_radix2.cu
+- │   ├── fft_stockham.cu
+- │   ├── fft_validation.cpp
+- │   └── main.cu
+- ├── Makefile
+- └── README.md
+
+**Build and run:**
+`make clean` # cleans previous builds
+`make` # builds the FFT demo application
+`./fft_demo` # runs the FFT demo executable
+
+
+### Adjusting Input Size
+- Modify the input size `N` by editing the `main.cu` source file.
+- Ensure the input size fits GPU memory capacity (`N * sizeof(float2) + overhead`).
+- Use smaller values (e.g., `N=8`) for debugging; higher values for benchmarking.
+
+### Output
+- Prints normalized FFT results for both Radix-2 and Stockham implementations.
+- Computes and displays RMS error relative to the CPU DFT reference.
+- Provides insight into numerical accuracy of GPU FFT kernels.
+
+### Troubleshooting
+| Problem                                    | Solution                                                           |
+|--------------------------------------------|--------------------------------------------------------------------|
+| Kernel launch failures or runtime errors   | Verify thread/block sizes and GPU memory availability              |
+| CUDA architecture mismatch (`sm_xy`)       | Update `NVCC_ARCH` in the Makefile to match your GPU architecture  |
+| Linker errors for validation functions     | Confirm `fft_validation.cpp` is included in the build sources      |
+| Out of GPU memory                          | Reduce input size `N` or close other GPU applications              |
+| Unexpected kernel output                   | Check device-to-host memcpy correctness and kernel synchronization |
+| Compilation issues on Windows              | Use Git Bash/WSL or adapt clean commands and newline characters    |
+
+### Extending fft
+- Add double precision FFT kernels and verify hardware support.
+- Implement multi-dimensional FFTs and batched FFT processing.
+- Optimize kernel memory access using shared memory and warp shuffles.
+- Integrate CUDA streams for concurrent kernel execution.
+- Profile kernel performance using NVIDIA Nsight or Visual Profiler tools.
+- Expand validation by comparing to cuFFT outputs and larger datasets.
 
 ---
 
