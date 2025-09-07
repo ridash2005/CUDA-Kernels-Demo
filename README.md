@@ -35,7 +35,7 @@ Includes dense, banded, symmetric, and triangular matrix-vector multiply kernels
 ### Cloning the Repository
 To start, clone the repository using this command:
 
-`git clone https://github.com/your-username/CUDA-Kernels-Demo.git`
+`git clone https://github.com/ridash2005/CUDA-Kernels-Demo.git`
 `cd CUDA-Kernels-Demo`
 
 ### Setting GPU Architecture
